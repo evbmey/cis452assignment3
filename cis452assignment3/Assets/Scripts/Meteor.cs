@@ -1,18 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class Meteor : MonoBehaviour
 {
-    private new Rigidbody rigidbody;
-
-    public void Awake()
-    {
-        rigidbody = GetComponent<Rigidbody>();
-
-        rigidbody.angularVelocity = Vector3.one * 20 * Mathf.PI;
-    }
+    [SerializeField]
+    private GameObject explosionPrefab;
 
     public void OnCollisionEnter(Collision collision)
     {
@@ -22,4 +13,10 @@ public class Meteor : MonoBehaviour
         }
     }
 
+    public void OnDestroy()
+    {
+        GameObject explosion = Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.identity);
+        explosion.transform.localScale = gameObject.transform.localScale;
+        Destroy(explosion, 3);
+    }
 }

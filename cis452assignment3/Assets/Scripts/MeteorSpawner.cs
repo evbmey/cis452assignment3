@@ -41,7 +41,15 @@ public class MeteorSpawner : MonoBehaviour
         while(true)
         {
             yield return new WaitForSeconds(10);
-            meteorScale *= 1.1f;
+
+            if (meteorScale < 2.0f)
+            {
+                meteorScale += 0.1f;
+            }
+            else
+            {
+                break;
+            }
         }
     }
 
@@ -66,10 +74,13 @@ public class MeteorSpawner : MonoBehaviour
     {
         GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
 
-        Vector3 spawnPosition = playerObjects[Random.Range(0, playerObjects.Length)].transform.position;
-        spawnPosition += (Vector3.up * 60);
+        if (!(playerObjects is null))
+        {
+            Vector3 spawnPosition = playerObjects[Random.Range(0, playerObjects.Length)].transform.position;
+            spawnPosition += (Vector3.up * 60);
 
-        SpawnMeteor(spawnPosition);
+            SpawnMeteor(spawnPosition);
+        }
     }
 
     public void SpawnMeteorRandom()
